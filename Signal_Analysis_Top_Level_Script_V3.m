@@ -1,7 +1,7 @@
 % Signal Analysis Master Script
 
 %% % Signal Analysis #1	DONE %%%%
-%%%% FFT of Master Channels  %%%%
+%%%% PSD of Master Channels  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Set Working Directory
