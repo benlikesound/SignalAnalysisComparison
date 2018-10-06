@@ -288,6 +288,12 @@ allkicks_xcorr = struct('allkicks_xcorr', allkicks_xcorr);
 	
 clearvars -except masters_PSD masters_narrowband_energy kickdrums_narrowband_energy allkicks_xcorr
 
+cd '/Users/itsu/Dropbox/Uni/4. Semester 4 - Research Report/Subject Results/Analysis Results'
+save ('masters_PSD masters_narrowband_energy.mat', 'masters_PSD masters_narrowband_energy.mat');
+save ('kickdrums_narrowband_energy.mat', 'kickdrums_narrowband_energy');
+save ('allkicks_xcorr.mat', 'allkicks_xcorr');
+clear
+
 %% % Signal Analysis #5				%%%%
 %%%% Power in each band of          %%%%
 %%%% each individual channel (Wide) %%%%
@@ -302,26 +308,44 @@ allchans_list = dir ('**/*.wav');
 % Number of wav files in list.
 allchans_num_files = length(allchans_list);
 
-% Create Structure containing all kick drum channels in the list.
+% Create Structure containing all individual channels in the list.
 for i=1:allchans_num_files 
 	[allchans{i}, fs] = audioread(allchans_list(i).name);	
 end
 clear i
 
-% Split all audio channels into wide bands (20-300 & 300-20,000)
+% Bandpass filter all audio channels into low band (20-300)
 for i=1:allchans_num_files
-    allchans_wide_bands{i} = wide_band_split(allchans{1, i}, fs);
-end
-clear i 
-
-% Calculate the power in the signal in each band
-for i=1:(kickdrums_num_files)
-	kickdrums_energy_narrow20_40{i} = mean(kickdrums_narrow_bands{1, i}{1,1}.^2);
-	kickdrums_energy_narrow40_80{i} = mean(kickdrums_narrow_bands{1, i}{1,2}.^2);
+    allchans_wide_bands_low{i} = wide_band_split(allchans{1, i}, fs, 20, 300);
 end
 clear i
+cd '/Users/itsu/Dropbox/Uni/4. Semester 4 - Research Report/Subject Results/Analysis Results'
+save ('allchans_wide_bands_low.mat', 'allchans_wide_bands_low');
+clear allchans_wide_bands_low
 
-kickdrums_narrowband_energy = struct('allchans_power_low', allchans_power_high, 'allchans_power_low', allchans_power_low);    
+% Bandpass filter all audio channels into high band (300-20000)
+for i=1:allchans_num_files
+    allchans_wide_bands_hi{i} = wide_band_split(allchans{1, i}, fs, 300, 20000);
+end
+clear i
+cd '/Users/itsu/Dropbox/Uni/4. Semester 4 - Research Report/Subject Results/Analysis Results'
+save ('allchans_wide_bands_hi.mat', 'allchans_wide_bands_hi');
+clear
+
+load allchans_wide_bands_hi.mat
+load allchans_wide_bands_low.mat
+
+% Calculate the power in the signal in each band
+for i=1:1200
+	allchans_power_wide_low{i} = mean(allchans_wide_bands_low{1, i}{1,1}.^2);
+	allchans_power_wide_hi{i} = mean(allchans_wide_bands_hi{1, i}{1,1}.^2);
+end
+clear i
+clear allchans_wide_bands_low allchans_wide_bands_hi
+
+allchans_wideband_power = struct('allchans_power_hi', allchans_power_wide_hi, 'allchans_power_low', allchans_power_wide_low);    
+
+save ('allchans_wideband_power.mat', 'allchans_wideband_power');
 
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
