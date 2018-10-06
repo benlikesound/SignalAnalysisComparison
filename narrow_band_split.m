@@ -26,7 +26,6 @@ names = {'narrow20_40' 'narrow40_80' 'narrow80_120' 'narrow120_160' ...
 % Call bandsplit to bandpass filter audio into bands.
 for i=1:numbands
 	narrow_bands{i} = bandsplit(insig, f_lo(1,(i)), f_hi(1,(i)), order, fs, phase); 
-	
 end
 
 % Convert cell array to structure to give cells names

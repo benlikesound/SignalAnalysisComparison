@@ -77,7 +77,7 @@ names = {'masters_energy_narrow20_40' 'masters_energy_narrow40_80' 'masters_ener
 masters_narrowband_energy = struct(names{1,1}, masters_energy_narrow20_40, names{1,2}, masters_energy_narrow40_80,...
 	names{1,3}, masters_energy_narrow80_120, names{1,4}, masters_energy_narrow120_160, names{1,5}, masters_energy_narrow160_200,...
 	names{1,6}, masters_energy_narrow200_230, names{1,7}, masters_energy_narrow230_260, names{1,8}, masters_energy_narrow260_800,...
-	names{1,9}, masters_energy_narrow800_3k, names{1,10}, masters_energy_narrow3k_20k);
+	names{1,9}, masters_energy_narrow800_3k, names{1,10}, masters_energy_narrow3k_20k)';
 
 clearvars -except masters_PSD masters_narrowband_energy 
 
@@ -131,7 +131,7 @@ names = {'kicks_energy_narrow20_40' 'kicks_energy_narrow40_80' 'kicks_energy_nar
 kickdrums_narrowband_energy = struct(names{1,1}, kickdrums_energy_narrow20_40, names{1,2}, kickdrums_energy_narrow40_80,...
 	names{1,3}, kickdrums_energy_narrow80_120, names{1,4}, kickdrums_energy_narrow120_160, names{1,5}, kickdrums_energy_narrow160_200,...
 	names{1,6}, kickdrums_energy_narrow200_230, names{1,7}, kickdrums_energy_narrow230_260, names{1,8}, kickdrums_energy_narrow260_800,...
-	names{1,9}, kickdrums_energy_narrow800_3k, names{1,10}, kickdrums_energy_narrow3k_20k);
+	names{1,9}, kickdrums_energy_narrow800_3k, names{1,10}, kickdrums_energy_narrow3k_20k)';
 
 clearvars -except masters_PSD masters_narrowband_energy kickdrums_narrowband_energy
 
@@ -310,7 +310,7 @@ clear i
 
 % Split all audio channels into wide bands (20-300 & 300-20,000)
 for i=1:allchans_num_files
-    allchans_wide{i} = wide_band_split(allchans{1, i}, fs);
+    allchans_wide_bands{i} = wide_band_split(allchans{1, i}, fs);
 end
 clear i 
 
