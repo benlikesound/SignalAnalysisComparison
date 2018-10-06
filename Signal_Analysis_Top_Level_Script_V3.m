@@ -1,6 +1,6 @@
 % Signal Analysis Master Script
 
-%% % Signal Analysis #1		 %%%%
+%% % Signal Analysis #1	DONE %%%%
 %%%% FFT of Master Channels  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -42,7 +42,7 @@ masters_PSD = struct('masters_PSD', masters_PSD);
 
 clearvars fvec n fft_master_bounces % Clear Unnecessary data
 
-%% % Signal Analysis #2			 %%%%
+%% % Signal Analysis #2	DONE	 %%%%
 %%%% Energy in each band of each %%%%
 %%%% master bounce (Narrow)		 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,7 +81,7 @@ masters_narrowband_energy = struct(names{1,1}, masters_energy_narrow20_40, names
 
 clearvars -except masters_PSD masters_narrowband_energy 
 
-%% % Signal Analysis #3					%%%%
+%% % Signal Analysis #3	DONE			%%%%
 %%%% Energy in each band of				%%%%
 %%%% each kick drum channel (Narrow)	%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -135,7 +135,7 @@ kickdrums_narrowband_energy = struct(names{1,1}, kickdrums_energy_narrow20_40, n
 
 clearvars -except masters_PSD masters_narrowband_energy kickdrums_narrowband_energy
 
-%% % Signal Analysis #4		    %%%%
+%% % Signal Analysis #4	DONE    %%%%
 %%%% Cross correlation of       %%%%
 %%%% unmixed kick drum channels %%%%
 %%%% with each post-mix kick    %%%%
