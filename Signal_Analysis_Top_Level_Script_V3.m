@@ -57,16 +57,16 @@ clear i
 
 % Calculate the sum of the square of the signal in each band
 for i=1:(num_files_master)
-	masters_energy_narrow20_40{i} = sum((master_narrow_bands{1, i}{1,1})./fs);
-	masters_energy_narrow40_80{i} = sum((master_narrow_bands{1, i}{1,2})./fs);
-	masters_energy_narrow80_120{i} = sum((master_narrow_bands{1, i}{1,3})./fs);
-	masters_energy_narrow120_160{i} = sum((master_narrow_bands{1, i}{1,4})./fs);
-	masters_energy_narrow160_200{i} = sum((master_narrow_bands{1, i}{1,5})./fs);
-	masters_energy_narrow200_230{i} = sum((master_narrow_bands{1, i}{1,6})./fs);
-	masters_energy_narrow230_260{i} = sum((master_narrow_bands{1, i}{1,7})./fs);
-	masters_energy_narrow260_800{i} = sum((master_narrow_bands{1, i}{1,8})./fs);
-	masters_energy_narrow800_3k{i} = sum((master_narrow_bands{1, i}{1,9})./fs);	
-	masters_energy_narrow3k_20k{i} = sum((master_narrow_bands{1, i}{1,10})./fs);	
+	masters_energy_narrow20_40{i} = sum(((master_narrow_bands{1, i}{1,1}.^2))./fs);
+	masters_energy_narrow40_80{i} = sum(((master_narrow_bands{1, i}{1,2}.^2))./fs);
+	masters_energy_narrow80_120{i} = sum(((master_narrow_bands{1, i}{1,3}.^2))./fs);
+	masters_energy_narrow120_160{i} = sum(((master_narrow_bands{1, i}{1,4}.^2))./fs);
+	masters_energy_narrow160_200{i} = sum(((master_narrow_bands{1, i}{1,5}.^2))./fs);
+	masters_energy_narrow200_230{i} = sum(((master_narrow_bands{1, i}{1,6}.^2))./fs);
+	masters_energy_narrow230_260{i} = sum(((master_narrow_bands{1, i}{1,7}.^2))./fs);
+	masters_energy_narrow260_800{i} = sum(((master_narrow_bands{1, i}{1,8}.^2))./fs);
+	masters_energy_narrow800_3k{i} = sum(((master_narrow_bands{1, i}{1,9}.^2))./fs);	
+	masters_energy_narrow3k_20k{i} = sum(((master_narrow_bands{1, i}{1,10}.^2))./fs);	
 end
 clear i
 
@@ -111,16 +111,16 @@ clear i
 
 % Calculate the sum of the square of the signal in each band
 for i=1:(kickdrums_num_files)
-	kickdrums_energy_narrow20_40{i} = sum((kickdrums_narrow_bands{1, i}{1,1})./fs);
-	kickdrums_energy_narrow40_80{i} = sum((kickdrums_narrow_bands{1, i}{1,2})./fs);
-	kickdrums_energy_narrow80_120{i} = sum((kickdrums_narrow_bands{1, i}{1,3})./fs);
-	kickdrums_energy_narrow120_160{i} = sum((kickdrums_narrow_bands{1, i}{1,4})./fs);
-	kickdrums_energy_narrow160_200{i} = sum((kickdrums_narrow_bands{1, i}{1,5})./fs);
-	kickdrums_energy_narrow200_230{i} = sum((kickdrums_narrow_bands{1, i}{1,6})./fs);
-	kickdrums_energy_narrow230_260{i} = sum((kickdrums_narrow_bands{1, i}{1,7})./fs);
-	kickdrums_energy_narrow260_800{i} = sum((kickdrums_narrow_bands{1, i}{1,8})./fs);
-	kickdrums_energy_narrow800_3k{i} = sum((kickdrums_narrow_bands{1, i}{1,9})./fs);	
-	kickdrums_energy_narrow3k_20k{i} = sum((kickdrums_narrow_bands{1, i}{1,10})./fs);	
+	kickdrums_energy_narrow20_40{i} = sum(((kickdrums_narrow_bands{1, i}{1,1}.^2))./fs);
+	kickdrums_energy_narrow40_80{i} = sum(((kickdrums_narrow_bands{1, i}{1,2}.^2))./fs);
+	kickdrums_energy_narrow80_120{i} = sum(((kickdrums_narrow_bands{1, i}{1,3}.^2))./fs);
+	kickdrums_energy_narrow120_160{i} = sum(((kickdrums_narrow_bands{1, i}{1,4}.^2))./fs);
+	kickdrums_energy_narrow160_200{i} = sum(((kickdrums_narrow_bands{1, i}{1,5}.^2))./fs);
+	kickdrums_energy_narrow200_230{i} = sum(((kickdrums_narrow_bands{1, i}{1,6}.^2))./fs);
+	kickdrums_energy_narrow230_260{i} = sum(((kickdrums_narrow_bands{1, i}{1,7}.^2))./fs);
+	kickdrums_energy_narrow260_800{i} = sum(((kickdrums_narrow_bands{1, i}{1,8}.^2))./fs);
+	kickdrums_energy_narrow800_3k{i} = sum(((kickdrums_narrow_bands{1, i}{1,9}.^2))./fs);	
+	kickdrums_energy_narrow3k_20k{i} = sum(((kickdrums_narrow_bands{1, i}{1,10}.^2))./fs);	
 end
 clear i
 
@@ -308,10 +308,20 @@ for i=1:allchans_num_files
 end
 clear i
 
+% Split all audio channels into wide bands (20-300 & 300-20,000)
 for i=1:allchans_num_files
-    allchans_wide{i] = 
-    
-    
+    allchans_wide{i} = wide_band_split(allchans{1, i}, fs);
+end
+clear i 
+
+% Calculate the power in the signal in each band
+for i=1:(kickdrums_num_files)
+	kickdrums_energy_narrow20_40{i} = mean(kickdrums_narrow_bands{1, i}{1,1}.^2);
+	kickdrums_energy_narrow40_80{i} = mean(kickdrums_narrow_bands{1, i}{1,2}.^2);
+end
+clear i
+
+kickdrums_narrowband_energy = struct('allchans_power_low', allchans_power_high, 'allchans_power_low', allchans_power_low);    
 
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -38,7 +38,7 @@ masters_PSD = masters_PSD'; % Transpose so that cases/subjects/programs/ run dow
 % xlabel('Frequency (Hz)')
 % ylabel('Power/Frequency (dB/Hz)')
 
-masters_PSD = struct('masters_PSD', masters_PSD)
+masters_PSD = struct('masters_PSD', masters_PSD);
 
 clearvars fvec n fft_master_bounces % Clear Unnecessary data
 
@@ -111,15 +111,15 @@ clear i
 
 % Calculate the sum of the square of the signal in each band
 for i=1:(kickdrums_num_files)
-	kickdrums_energy_narrow20_40{i} = sum((kickdrums_narrow_bands{1, i}{1,1})./fs);
-	kickdrums_energy_narrow40_80{i} = sum((kickdrums_narrow_bands{1, i}{1,2})./fs);
-	kickdrums_energy_narrow80_120{i} = sum((kickdrums_narrow_bands{1, i}{1,3})./fs);
-	kickdrums_energy_narrow120_160{i} = sum((kickdrums_narrow_bands{1, i}{1,4})./fs);
-	kickdrums_energy_narrow160_200{i} = sum((kickdrums_narrow_bands{1, i}{1,5})./fs);
-	kickdrums_energy_narrow200_230{i} = sum((kickdrums_narrow_bands{1, i}{1,6})./fs);
-	kickdrums_energy_narrow230_260{i} = sum((kickdrums_narrow_bands{1, i}{1,7})./fs);
-	kickdrums_energy_narrow260_800{i} = sum((kickdrums_narrow_bands{1, i}{1,8})./fs);
-	kickdrums_energy_narrow800_3k{i} = sum((kickdrums_narrow_bands{1, i}{1,9})./fs);	
+	kickdrums_energy_narrow20_40{i} = sum(((kickdrums_narrow_bands{1, i}{1,1}.^2))./fs);
+	kickdrums_energy_narrow40_80{i} = sum(((kickdrums_narrow_bands{1, i}{1,2}.^2))./fs);
+	kickdrums_energy_narrow80_120{i} = sum(((kickdrums_narrow_bands{1, i}{1,3})./fs);
+	kickdrums_energy_narrow120_160{i} = sum(((kickdrums_narrow_bands{1, i}{1,4})./fs);
+	kickdrums_energy_narrow160_200{i} = sum(((kickdrums_narrow_bands{1, i}{1,5})./fs);
+	kickdrums_energy_narrow200_230{i} = sum(((kickdrums_narrow_bands{1, i}{1,6})./fs);
+	kickdrums_energy_narrow230_260{i} = sum(((kickdrums_narrow_bands{1, i}{1,7})./fs);
+	kickdrums_energy_narrow260_800{i} = sum(((kickdrums_narrow_bands{1, i}{1,8})./fs);
+	kickdrums_energy_narrow800_3k{i} = sum(((kickdrums_narrow_bands{1, i}{1,9})./fs);	
 	kickdrums_energy_narrow3k_20k{i} = sum((kickdrums_narrow_bands{1, i}{1,10})./fs);	
 end
 clear i
@@ -185,18 +185,19 @@ num_original_kicks = length(original_kicks_list);
 for i=1:num_original_kicks 
 	[original_kicks{i}, fs] = audioread(original_kicks_list(i).name);
 end
+clear i
 
 % Make mono
 for i=1:num_original_kicks
 	original_kicks{i} = original_kicks{1,i}(:, 1) + original_kicks{1,i}(:, 2);
 end
+clear i
 for i=1:num_program_A_kicks
 	program_A_kicks{i} = program_A_kicks{1,i}(:, 1) + program_A_kicks{1,i}(:, 2);
 	program_D_kicks{i} = program_D_kicks{1,i}(:, 1) + program_D_kicks{1,i}(:, 2);
 	program_J_kicks{i} = program_J_kicks{1,i}(:, 1) + program_J_kicks{1,i}(:, 2);
 	program_R_kicks{i} = program_R_kicks{1,i}(:, 1) + program_R_kicks{1,i}(:, 2);
 end
-
 clear i
 
 % Compute Cross Corelations of Program A Kicks with original A Kick.
@@ -287,6 +288,41 @@ allkicks_xcorr = struct('allkicks_xcorr', allkicks_xcorr);
 	
 clearvars -except masters_PSD masters_narrowband_energy kickdrums_narrowband_energy allkicks_xcorr
 
+%% % Signal Analysis #5				%%%%
+%%%% Power in each band of          %%%%
+%%%% each individual channel (Wide) %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Set Working Directory (All chans folder)
+cd '/Users/itsu/Dropbox/Uni/4. Semester 4 - Research Report/Subject Results/Individual Channels'
+
+% Create list of ALL wav files to be processed.
+allchans_list = dir ('**/*.wav');
+
+% Number of wav files in list.
+allchans_num_files = length(allchans_list);
+
+% Create Structure containing all kick drum channels in the list.
+for i=1:allchans_num_files 
+	[allchans{i}, fs] = audioread(allchans_list(i).name);	
+end
+clear i
+
+% Split all audio channels into wide bands (20-300 & 300-20,000)
+for i=1:allchans_num_files
+    allchans_wide{i} = wide_band_split(allchans{1, i}, fs);
+end
+clear i 
+
+
+% Calculate the sum of the square of the signal in each band
+for i=1:(kickdrums_num_files)
+	kickdrums_energy_narrow20_40{i} = sum((kickdrums_narrow_bands{1, i}{1,1})./fs);
+	kickdrums_energy_narrow40_80{i} = sum((kickdrums_narrow_bands{1, i}{1,2})./fs);
+end
+clear i
+
+kickdrums_narrowband_energy = struct('allchans_power_low', allchans_power_high, 'allchans_power_low', allchans_power_low);    
 
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

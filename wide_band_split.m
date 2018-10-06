@@ -22,5 +22,3 @@ end
 % wide_bands = cell2struct(wide_bands, names, 2);
 
 end
-
-
