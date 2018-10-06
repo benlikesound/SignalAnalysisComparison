@@ -346,17 +346,3 @@ clear allchans_wide_bands_low allchans_wide_bands_hi
 allchans_wideband_power = struct('allchans_power_hi', allchans_power_wide_hi, 'allchans_power_low', allchans_power_wide_low);    
 
 save ('allchans_wideband_power.mat', 'allchans_wideband_power');
-
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%% Collate Results		 %%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Concatenate all audio to be anylised in a new structure array.
-all_results = catstruct(wide_bands, narrow_bands, master_bounce_list);
-
- 
-
-
-%TEST%
-	
